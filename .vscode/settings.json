@@ -1,0 +1,25 @@
+{
+  "c-cpp-flylint.language": "c",
+  "c-cpp-flylint.clang.enable": false,
+  "c-cpp-flylint.flexelint.enable": false,
+  "c-cpp-flylint.cppcheck.enable": true,
+  "c-cpp-flylint.cppcheck.language": "c",
+  "c-cpp-flylint.lizard.enable": true,
+  "c-cpp-flylint.cppcheck.addons": [
+    "threadsafety"
+  ],
+  "c-cpp-flylint.cppcheck.platform": "win32W",
+  "editor.defaultFormatter": "ms-vscode.cpptools",
+  "C_Cpp.clang_format_fallbackStyle": "Chromium",
+  "C_Cpp.clang_format_style": "{BasedOnStyle: Chromium, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: true, ColumnLimit: 150, AllowShortEnumsOnASingleLine: false}",
+  "editor.formatOnSave": true,
+  "c-cpp-flylint.cppcheck.suppressions": [
+    "unusedStructMember"
+  ],
+  "files.associations": {
+    "*.h": "c",
+    "*.c": "c",
+    "*.hpp": "cpp",
+    "*.cpp": "cpp"
+  }
+}
