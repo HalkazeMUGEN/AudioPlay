@@ -1,4 +1,4 @@
-#ifndef ___SYNCFPS_H__
+﻿#ifndef ___SYNCFPS_H__
 #define ___SYNCFPS_H__
 
 #include "SyncFPS/SyncFPS.h"

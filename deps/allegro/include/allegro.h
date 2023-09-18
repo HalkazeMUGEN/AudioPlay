@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file allegro.h
  * @author Halkaze
  * @brief Allegro headers reproduction for MCIManager

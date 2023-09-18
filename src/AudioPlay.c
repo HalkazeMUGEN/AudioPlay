@@ -1,4 +1,4 @@
-#include <AudioPlay.h>
+﻿#include <AudioPlay.h>
 #include <MCIManager/MCIManager.h>
 #include <SyncFPS/SyncFPS.h>
 #include <allegro.h>

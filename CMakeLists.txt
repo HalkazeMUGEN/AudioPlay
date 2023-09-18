@@ -24,20 +24,106 @@ set_property(TARGET AudioPlay PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 set_property(TARGET SyncFPS PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 set_property(TARGET MCIManager PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
-target_compile_options(
+target_compile_features(
   AudioPlay
-  PRIVATE "-Wall"
-  PRIVATE "-Wextra"
-  PRIVATE "-Werror"
+  PRIVATE c_std_17
 )
 
-target_link_options(
+target_compile_definitions(
   AudioPlay
-  PRIVATE "LINKER:/SUBSYSTEM:CONSOLE"
-  PRIVATE "LINKER:/NODEFAULTLIB:libucrt.lib"
+  PRIVATE
+  WIN32
+  _WINDOWS
+  UNICODE
+  _UNICODE
+	$<$<CONFIG:Debug>:
+    DEBUG
+    _DEBUG
+	>
 )
 
-target_link_libraries(
-  AudioPlay
-  PRIVATE ucrt.lib
-)
+if(MSVC)
+  message("tools = cl / clang-cl (MSVC CLI)")
+  target_compile_options(
+    AudioPlay
+    PRIVATE
+    "/W4"
+    "/wd5105"
+    "/WX"
+    "/arch:AVX"
+    "/EHa-"
+    "/EHs-"
+    "/GA"
+    "/GF"
+    "/nologo"
+    "/TC"
+    "/utf-8"
+		$<$<CONFIG:Debug>:
+			"/GR"
+			"/JMC"
+			"/RTC1"
+		>
+		$<$<CONFIG:Release>:
+			"/GL"
+			"/GR-"
+			"/Gw"
+			"/Gy"
+			"/Oi"
+		>
+  )
+  target_link_options(
+    AudioPlay
+    PRIVATE
+    "LINKER:/NODEFAULTLIB:libucrt.lib"
+  )
+
+  target_link_libraries(
+    AudioPlay
+    PRIVATE
+    ucrt.lib
+  )
+elseif(CMAKE_C_COMPILER_ID MATCHES GNU)
+  message("tools = gcc")
+  target_compile_options(
+    AudioPlay
+    PRIVATE
+    "-Wall"
+    "-Wextra"
+    "-Werror"
+    "-mavx"
+		"-mfpmath=sse"
+		$<$<CONFIG:Debug>:
+			"-Og"
+		>
+		$<$<CONFIG:Release>:
+			"-fomit-frame-pointer"
+			"-ftree-vectorize"
+		>
+  )
+
+  target_link_libraries(
+    AudioPlay
+    PRIVATE
+    ucrt.lib
+  )
+elseif(CMAKE_C_COMPILER_ID MATCHES Clang)
+  message("tools = clang / clang-cl (GNU CLI)")
+  target_compile_options(
+    AudioPlay
+    PRIVATE
+    "-Wall"
+    "-Wextra"
+    "-Werror"
+    "-mavx"
+		"-mfpmath=sse"
+		$<$<CONFIG:Debug>:
+			"-Og"
+		>
+		$<$<CONFIG:Release>:
+			"-fomit-frame-pointer"
+			"-ftree-vectorize"
+		>
+  )
+else()
+  message(FATAL_ERROR "Using unsupported toolset")
+endif()

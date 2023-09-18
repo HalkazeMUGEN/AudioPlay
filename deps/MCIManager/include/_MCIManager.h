@@ -1,4 +1,4 @@
-#ifndef ___MCIMANAGER_H__
+﻿#ifndef ___MCIMANAGER_H__
 #define ___MCIMANAGER_H__
 
 #include "MCIManager/MCIManager.h"
@@ -7,7 +7,9 @@
 #include <digitalv.h>
 #include <stdatomic.h>
 
-static const MCIM_KEY MCIM_INITIAL_KEY_VALUE = 0;
+// MSVCではAtomicの一部機能が未実装であり、
+// 定数以外（const変数を含む）でAtomic変数を初期化できないため
+#define MCIM_INITIAL_KEY_VALUE 0
 
 typedef enum _MCIM_STATUS {
   MCIM_STATUS_UNLOADED = 0,

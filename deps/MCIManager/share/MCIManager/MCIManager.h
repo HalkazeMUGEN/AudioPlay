@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file MCIManager.h
  * @author Halkaze
  * @brief MCIManager 公開ヘッダ
@@ -10,6 +10,8 @@
 
 #ifndef __MCIMANAGER_H__
 #define __MCIMANAGER_H__
+
+#include "compat/attrib.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -26,13 +28,13 @@ static const mcim_deallocator_t MCIM_DEFAULT_MEMORY_DEALLOCATOR = free;
  * @brief MCIManager用オブジェクト
  * @note - 一つのオブジェクトが同時に管理できるBGMは一つのみ
  */
-typedef struct _MCIM_DATA {
-} MCIM_DATA, *PMCIM_DATA;
+typedef struct _MCIM_DATA MCIM_DATA, *PMCIM_DATA;
 
 /**
  * @brief BGM識別キー
  */
 typedef uint32_t MCIM_KEY;
+
 static const MCIM_KEY MCIM_INVALID_KEY = 0xffffffff;
 static const MCIM_KEY MCIM_MASTER_KEY = 0xfffffffe;
 
@@ -67,7 +69,7 @@ typedef void (*MCIM_WAIT_NEXT_FRAME)(void);
  * @note - allocatorがNULLの場合は失敗する
  * @note - deallocatorがNULLの場合は失敗する
  */
-_VCRT_RESTRICT MCIM_DATA* mcim_init_al(HWND callbackWindow, void* (*allocator)(size_t), void (*deallocator)(void*));
+ATTRIB_MALLOC MCIM_DATA* mcim_init_al(HWND callbackWindow, void* (*allocator)(size_t), void (*deallocator)(void*));
 
 /**
  * @brief MCIMオブジェクトを初期化
@@ -76,7 +78,7 @@ _VCRT_RESTRICT MCIM_DATA* mcim_init_al(HWND callbackWindow, void* (*allocator)(s
  * @note - 失敗時はNULLを返す
  * @note - callbackWindowがINVALID_HANDLE_VALUEの場合は失敗する
  */
-_VCRT_RESTRICT static inline MCIM_DATA* mcim_init(HWND callbackWindow) {
+ATTRIB_MALLOC static inline MCIM_DATA* mcim_init(HWND callbackWindow) {
   return mcim_init_al(callbackWindow, MCIM_DEFAULT_MEMORY_ALLOCATOR, MCIM_DEFAULT_MEMORY_DEALLOCATOR);
 }
 

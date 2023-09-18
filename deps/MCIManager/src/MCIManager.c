@@ -1,11 +1,11 @@
-#include "_MCIManager.h"
+﻿#include "_MCIManager.h"
 
 #include <assert.h>
 #include <process.h>
 
 /**************************************************************************************************/
 
-static _Atomic MCIM_KEY MCIM_NEXT_KEY = MCIM_INITIAL_KEY_VALUE;
+static _Atomic(MCIM_KEY) MCIM_NEXT_KEY = MCIM_INITIAL_KEY_VALUE;
 
 static MCIM_CALLBACK_TABLE_ENTRY* MCIM_CALLBACK_TABLE = NULL;
 
@@ -18,10 +18,10 @@ static CRITICAL_SECTION MCIM_INSTANCE_COUNT_MUTEX = {0};
 
 /**************************************************************************************************/
 
-_VCRT_RESTRICT MCIM_MUSIC_ENTRY* mcim_create_loaded_entry(const wchar_t* filepath, mcim_allocator_t allocator, mcim_deallocator_t deallocator);
-_VCRT_NOALIAS static bool mcim_entry_is_playing(const MCIM_MUSIC_ENTRY* entry);
-_VCRT_NOALIAS static bool mcim_entry_equal(const MCIM_MUSIC_ENTRY* entry, const wchar_t* filepath);
-_VCRT_NOALIAS static MCIM_NOTIFY_FLAGS mcim_convert_flag(uint32_t mci_flag);
+ATTRIB_MALLOC MCIM_MUSIC_ENTRY* mcim_create_loaded_entry(const wchar_t* filepath, mcim_allocator_t allocator, mcim_deallocator_t deallocator);
+ATTRIB_PURE static bool mcim_entry_is_playing(const MCIM_MUSIC_ENTRY* entry);
+ATTRIB_PURE static bool mcim_entry_equal(const MCIM_MUSIC_ENTRY* entry, const wchar_t* filepath);
+ATTRIB_CONST static MCIM_NOTIFY_FLAGS mcim_convert_flag(uint32_t mci_flag);
 
 static MCIM_KEY mcim_load_entry(MCIM_MUSIC_ENTRY* entry);
 static bool mcim_unload_entry(MCIM_MUSIC_ENTRY* entry, mcim_deallocator_t deallocator);
@@ -277,7 +277,7 @@ MCIM_KEY mcim_fadeout(MCIM_DATA* data, MCIM_KEY key, MCIM_WAIT_NEXT_FRAME wait, 
 
 /**********************************************************/
 
-_VCRT_RESTRICT MCIM_MUSIC_ENTRY* mcim_create_loaded_entry(const wchar_t* filepath, mcim_allocator_t allocator, mcim_deallocator_t deallocator) {
+ATTRIB_MALLOC MCIM_MUSIC_ENTRY* mcim_create_loaded_entry(const wchar_t* filepath, mcim_allocator_t allocator, mcim_deallocator_t deallocator) {
   assert(filepath != NULL);
   assert(allocator != NULL);
   assert(deallocator != NULL);
@@ -322,11 +322,11 @@ _VCRT_RESTRICT MCIM_MUSIC_ENTRY* mcim_create_loaded_entry(const wchar_t* filepat
   return entry;
 }
 
-static bool mcim_entry_is_playing(const MCIM_MUSIC_ENTRY* entry) {
+ATTRIB_PURE static bool mcim_entry_is_playing(const MCIM_MUSIC_ENTRY* entry) {
   return (entry->status >= MCIM_STATUS_PLAYING);
 }
 
-static bool mcim_entry_equal(const MCIM_MUSIC_ENTRY* entry, const wchar_t* filepath) {
+ATTRIB_PURE static bool mcim_entry_equal(const MCIM_MUSIC_ENTRY* entry, const wchar_t* filepath) {
   assert(entry != NULL);
   assert(entry->filepath != NULL);
   assert(filepath != NULL);
@@ -334,7 +334,7 @@ static bool mcim_entry_equal(const MCIM_MUSIC_ENTRY* entry, const wchar_t* filep
   return (wcscmp(entry->filepath, filepath) == 0);
 }
 
-static MCIM_NOTIFY_FLAGS mcim_convert_flag(uint32_t mci_flag) {
+ATTRIB_CONST static MCIM_NOTIFY_FLAGS mcim_convert_flag(uint32_t mci_flag) {
   MCIM_NOTIFY_FLAGS mcim_flag;
   switch (mci_flag) {
     case MCI_NOTIFY_SUCCESSFUL:

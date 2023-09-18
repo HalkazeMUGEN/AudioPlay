@@ -1,4 +1,4 @@
-#ifndef __AUDIOPLAY_H__
+﻿#ifndef __AUDIOPLAY_H__
 #define __AUDIOPLAY_H__
 
 #include <assert.h>

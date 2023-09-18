@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file SyncFPS.h
  * @author Halkaze
  * @brief SyncFPS 公開ヘッダ
@@ -10,6 +10,8 @@
 
 #ifndef __SYNCFPS_H__
 #define __SYNCFPS_H__
+
+#include "compat/attrib.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -23,8 +25,7 @@ static const sync_fps_deallocator_t SYNC_FPS_DEFAULT_MEMORY_DEALLOCATOR = free;
 /**
  * @brief SyncFPS用オブジェクト
  */
-typedef struct _SYNC_FPS_DATA {
-} SYNC_FPS_DATA, *PSYNC_FPS_DATA;
+typedef struct _SYNC_FPS_DATA SYNC_FPS_DATA, *PSYNC_FPS_DATA;
 
 /**
  * @brief 指定されたメモリアロケータを使用してSyncFPS用オブジェクトを初期化
@@ -37,7 +38,7 @@ typedef struct _SYNC_FPS_DATA {
  * @note - deallocatorがNULLの場合は失敗する
  * @note - 失敗時はNULLを返す
  */
-_VCRT_RESTRICT SYNC_FPS_DATA* init_sync_fps_al(double fps, sync_fps_allocator_t allocator, sync_fps_deallocator_t deallocator);
+ATTRIB_MALLOC SYNC_FPS_DATA* init_sync_fps_al(double fps, sync_fps_allocator_t allocator, sync_fps_deallocator_t deallocator);
 
 /**
  * @brief SyncFPS用オブジェクトを初期化
@@ -46,7 +47,7 @@ _VCRT_RESTRICT SYNC_FPS_DATA* init_sync_fps_al(double fps, sync_fps_allocator_t 
  * @note - fpsが0以下の場合は失敗する
  * @note - 失敗時はNULLを返す
  */
-_VCRT_RESTRICT static inline SYNC_FPS_DATA* init_sync_fps(double fps) {
+ATTRIB_MALLOC static inline SYNC_FPS_DATA* init_sync_fps(double fps) {
   return init_sync_fps_al(fps, SYNC_FPS_DEFAULT_MEMORY_ALLOCATOR, SYNC_FPS_DEFAULT_MEMORY_DEALLOCATOR);
 }
 

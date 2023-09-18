@@ -1,4 +1,4 @@
-#include "_SyncFPS.h"
+﻿#include "_SyncFPS.h"
 
 SYNC_FPS_DATA* init_sync_fps_al(double fps, sync_fps_allocator_t allocator, sync_fps_deallocator_t deallocator) {
   if (fps <= 0.0 || allocator == NULL || deallocator == NULL) {
